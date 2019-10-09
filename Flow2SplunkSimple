@@ -1,0 +1,76 @@
+[
+    {
+        "id": "954d2431.72c738",
+        "type": "tab",
+        "label": "Flow2SplunkSimple",
+        "disabled": false,
+        "info": "Simple flow sending random data values to Splunk using the Splunk HEC Node."
+    },
+    {
+        "id": "7e0ed634.5ccb1",
+        "type": "debug",
+        "z": "954d2431.72c738",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 417,
+        "y": 266,
+        "wires": []
+    },
+    {
+        "id": "c060b30b.826978",
+        "type": "function",
+        "z": "954d2431.72c738",
+        "name": "Generate random integer",
+        "func": "\nmsg.Integer=generateRandomNumber(20,99)\n\n\n\n\nreturn msg;\n\nfunction generateRandomNumber(min_value,max_value)\n{\n    return Math.floor(Math.random() * (max_value-min_value) + min_value);\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 459,
+        "y": 152,
+        "wires": [
+            [
+                "b2be57b8.8a1c78",
+                "7e0ed634.5ccb1"
+            ]
+        ]
+    },
+    {
+        "id": "b436442f.482cf",
+        "type": "inject",
+        "z": "954d2431.72c738",
+        "name": "Every 5 seconds",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 209,
+        "y": 153,
+        "wires": [
+            [
+                "c060b30b.826978"
+            ]
+        ]
+    },
+    {
+        "id": "b2be57b8.8a1c78",
+        "type": "splunk-http-event-collector",
+        "z": "954d2431.72c738",
+        "name": "",
+        "inputURI": "",
+        "inputToken": "",
+        "inputSourcetype": "",
+        "inputHost": "",
+        "inputIndex": "",
+        "inputSource": "",
+        "x": 769,
+        "y": 152,
+        "wires": []
+    }
+]
