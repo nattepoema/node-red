@@ -1,1 +1,1562 @@
-[{"id":"d38399f9.214e8","type":"subflow","name":"toLounge?","info":"","category":"","in":[{"x":200,"y":380,"wires":[{"id":"9905add7.0a9b6"}]}],"out":[{"x":760,"y":320,"wires":[{"id":"b192a133.60ac4","port":0}]},{"x":760,"y":420,"wires":[{"id":"b192a133.60ac4","port":1}]}]},{"id":"9905add7.0a9b6","type":"function","z":"d38399f9.214e8","name":"willVisitLounge","func":"\nvar willVisitLounge = \"no\" \n\nvar x = generateRandomNumber(0,100)\n\nif(x > 60 && msg.wasAtLounge != \"yes\"){\n    \n   willVisitLounge = \"yes\" \n}\n\nmsg.willVisitLounge = willVisitLounge\nmsg.x = x\n\nreturn msg;\n\nfunction generateRandomNumber(min_value , max_value) \n{\n    return Math.floor(Math.random() * (max_value-min_value) + min_value) ;\n}","outputs":1,"noerr":0,"x":380,"y":380,"wires":[["b192a133.60ac4"]]},{"id":"b192a133.60ac4","type":"switch","z":"d38399f9.214e8","name":"to Lounge?","property":"willVisitLounge","propertyType":"msg","rules":[{"t":"eq","v":"yes","vt":"str"},{"t":"else"}],"checkall":"true","repair":false,"outputs":2,"x":570,"y":380,"wires":[[],[]]},{"id":"a57f035.2c2398","type":"debug","z":"d38399f9.214e8","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"x","x":760,"y":140,"wires":[]},{"id":"f360675f.7f07d","type":"debug","z":"d38399f9.214e8","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"willVisitLounge","x":780,"y":200,"wires":[]},{"id":"f0817e53.f780a","type":"debug","z":"d38399f9.214e8","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"wasAtLounge","x":780,"y":260,"wires":[]},{"id":"719245b9.2e63a4","type":"subflow","name":"Passport Control","info":"","category":"","in":[{"x":320,"y":280,"wires":[{"id":"b55d642e.3306b"}]}],"out":[{"x":860,"y":280,"wires":[{"id":"b55d642e.3306b","port":0}]}]},{"id":"b55d642e.3306b","type":"function","z":"719245b9.2e63a4","name":"Passport Control","func":"\n// Time to station\n\ndiff     = 2\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"Passport Control\"\nmsg.LOCATION = \"Border-Control Booth 1\"\n\nreturn msg;\n","outputs":1,"noerr":0,"x":600,"y":280,"wires":[["6ad39693.a5ed5"]]},{"id":"6ad39693.a5ed5","type":"subflow:3b6ecce1.a5b51c","z":"719245b9.2e63a4","name":"","env":[],"x":960,"y":340,"wires":[]},{"id":"aa3cc605.1c1bb8","type":"subflow","name":"Dining Area","info":"","category":"","in":[{"x":240,"y":320,"wires":[{"id":"7e4686ab.e69ba"}]}],"out":[{"x":840,"y":320,"wires":[{"id":"774cfeb7.f78a28","port":0}]}]},{"id":"7e4686ab.e69ba","type":"function","z":"aa3cc605.1c1bb8","name":"Enter Dining Area","func":"\n// Time to station\n\ndiff     = 8\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Dining Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;","outputs":1,"noerr":0,"x":430,"y":320,"wires":[["774cfeb7.f78a28","7d9553a5.a3c004"]]},{"id":"774cfeb7.f78a28","type":"function","z":"aa3cc605.1c1bb8","name":"Leave Dining Area","func":"\n// Time to station\n\ndiff     = 25\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVE Dining Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;","outputs":1,"noerr":0,"x":670,"y":320,"wires":[["7d9553a5.a3c004"]]},{"id":"7d9553a5.a3c004","type":"subflow:3b6ecce1.a5b51c","z":"aa3cc605.1c1bb8","name":"","x":920,"y":460,"wires":[]},{"id":"539d447e.449914","type":"subflow","name":"Duty Free","info":"","category":"","in":[{"x":220,"y":200,"wires":[{"id":"13cf3517.42fbb3"}]}],"out":[{"x":880,"y":200,"wires":[{"id":"dd21f803.698c6","port":0}]}]},{"id":"13cf3517.42fbb3","type":"function","z":"539d447e.449914","name":"Enter Duty Free","func":"\n// Time to station\n\ndiff     = 3\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Duty Free Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;\n","outputs":1,"noerr":0,"x":420,"y":200,"wires":[["dd21f803.698c6","5cc98b59.cad1a4"]]},{"id":"dd21f803.698c6","type":"function","z":"539d447e.449914","name":"Leave Duty Free","func":"\n// Time in station\n\ndiff     = 4\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVE Duty Free Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;","outputs":1,"noerr":0,"x":680,"y":200,"wires":[["5cc98b59.cad1a4"]]},{"id":"5cc98b59.cad1a4","type":"subflow:3b6ecce1.a5b51c","z":"539d447e.449914","name":"","x":950,"y":260,"wires":[]},{"id":"1c350c07.aa3fa4","type":"subflow","name":"Frequent Flyer Lounge Area","info":"","category":"","in":[{"x":190,"y":180,"wires":[{"id":"ac1b32bd.dd4ff8"}]}],"out":[{"x":950,"y":180,"wires":[{"id":"62d74eec.f0f61","port":0}]}]},{"id":"ac1b32bd.dd4ff8","type":"function","z":"1c350c07.aa3fa4","name":"Enter Frequent Flyer Lounge","func":"\n// Time to station\n\n\ndiff     = 5\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Frequent Flyer Lounge\"\nmsg.LOCATION = \"Terminal 1\"\n\nvar wasAtLounge = \"yes\"\n\nmsg.wasAtLounge = wasAtLounge\n\nreturn msg;","outputs":1,"noerr":0,"x":400,"y":180,"wires":[["62d74eec.f0f61","9d83442d.ae2e88"]]},{"id":"62d74eec.f0f61","type":"function","z":"1c350c07.aa3fa4","name":"Leave Frequent Flyer Lounge","func":"\n// Time in station\n\ndiff     = 25\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVE Frequent Flyer Lounge\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;","outputs":1,"noerr":0,"x":740,"y":180,"wires":[["9d83442d.ae2e88"]]},{"id":"9d83442d.ae2e88","type":"subflow:3b6ecce1.a5b51c","z":"1c350c07.aa3fa4","name":"","x":1020,"y":240,"wires":[]},{"id":"3b6ecce1.a5b51c","type":"subflow","name":"Event to Log (Secure-Area)","info":"","category":"","in":[{"x":520,"y":260,"wires":[{"id":"ca3af2aa.30f39"}]}],"out":[]},{"id":"6c87037.9b27f7c","type":"file","z":"3b6ecce1.a5b51c","name":"airport-total","filename":"/tmp/airport-total.csv","appendNewline":true,"createDir":true,"overwriteFile":"false","x":1210,"y":260,"wires":[[]]},{"id":"ca3af2aa.30f39","type":"function","z":"3b6ecce1.a5b51c","name":"Prepare CSV","func":"var originalPayload = msg.payload;\n\nvar newPayload = {};\nnewPayload._time    = msg.time;\nnewPayload._msgid   = msg._msgid;\nnewPayload.STEP     = msg.STEP;\nnewPayload.LOCATION = msg.LOCATION;\nnewPayload.GATE     = msg.GATE;\n\nmsg.payload = newPayload\n\n\n\nreturn msg;","outputs":1,"noerr":0,"x":670,"y":260,"wires":[["bd32a81e.a13a","86cde9f1.ef0138"]]},{"id":"59fe89e1.93726","type":"file","z":"3b6ecce1.a5b51c","name":"airport-secure-area","filename":"/tmp/airport-secure-area.csv","appendNewline":true,"createDir":true,"overwriteFile":"false","x":1270,"y":340,"wires":[[]]},{"id":"bd32a81e.a13a","type":"function","z":"3b6ecce1.a5b51c","name":"Prepare CSV","func":"var originalPayload = msg.payload;\n\nvar newPayload = {};\nnewPayload._time    = msg.time;\nnewPayload.pax_id   = msg._msgid;\nnewPayload.STEP     = msg.STEP;\nnewPayload.LOCATION = msg.LOCATION;\nnewPayload.GATE     = msg.GATE;\n\nmsg.payload = newPayload\n\n\n\nreturn msg;","outputs":1,"noerr":0,"x":890,"y":340,"wires":[["83162387.0892d"]]},{"id":"86cde9f1.ef0138","type":"csv","z":"3b6ecce1.a5b51c","name":"","sep":",","hdrin":"","hdrout":"","multi":"one","ret":"\\n","temp":"_time, _msgid, STEP, LOCATION, GATE","skip":"0","x":920,"y":180,"wires":[["6c87037.9b27f7c"]]},{"id":"83162387.0892d","type":"csv","z":"3b6ecce1.a5b51c","name":"","sep":",","hdrin":"","hdrout":"","multi":"one","ret":"\\n","temp":"_time, pax_id, STEP, LOCATION, GATE","skip":"0","x":1060,"y":360,"wires":[["59fe89e1.93726"]]},{"id":"3630d46b.61b19c","type":"subflow","name":"Boarding Gate","info":"","category":"","in":[{"x":200,"y":340,"wires":[{"id":"18a664c1.d0dcab"}]}],"out":[]},{"id":"18a664c1.d0dcab","type":"function","z":"3630d46b.61b19c","name":"Arrive Boarding Gate","func":"\n// Time to station\n\ndiff     = 6\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Bording Gate Area\";\n\n\nmsg.LOCATION = \"Terminal 1\"\n\n\nif(msg.LOCATION == \"Terminal 1\"){\n    var rnd = generateRandomNumber(0,100)\n    if(rnd>66){\n        var area = \"A\";\n     } else {\n        var area = \"B\";\n     }   \n    msg.GATE = area + generateRandomNumber(1,20).toString();\n } else {\n    msg.GATE = \"C\" + generateRandomNumber(1,30).toString();\n }\n\n\nvar deniedBoarding = generateRandomNumber(1,1000)\nif(deniedBoarding > 998)\n    msg.deniedBoarding = 1;\nelse \n    msg.deniedBoarding = 0;\n\n\nreturn msg;\n\n\nfunction generateRandomNumber(min_value , max_value) \n{\n    return Math.floor(Math.random() * (max_value-min_value) + min_value) ;\n}","outputs":1,"noerr":0,"x":360,"y":340,"wires":[["ad824a6.0da7c38","bd38352b.ad01c"]]},{"id":"2bdb021e.ad5d4e","type":"function","z":"3630d46b.61b19c","name":"Board Flight","func":"\n// Time to station\n\ndiff     = 20\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"BOARD Aircraft\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;","outputs":1,"noerr":0,"x":810,"y":300,"wires":[["ad824a6.0da7c38"]]},{"id":"ad824a6.0da7c38","type":"subflow:3b6ecce1.a5b51c","z":"3630d46b.61b19c","name":"","x":1140,"y":440,"wires":[]},{"id":"bd38352b.ad01c","type":"switch","z":"3630d46b.61b19c","name":"","property":"deniedBoarding","propertyType":"msg","rules":[{"t":"eq","v":"1","vt":"str"},{"t":"else"}],"checkall":"true","repair":false,"outputs":2,"x":610,"y":220,"wires":[["5745efb5.327f28"],["2bdb021e.ad5d4e"]]},{"id":"5745efb5.327f28","type":"function","z":"3630d46b.61b19c","name":"Denied Boarding","func":"\n// Time to station\n\ndiff     = 20\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"Leave Secure Area (Flight missed / Denied Boarding)\"\nmsg.LOCATION = \"Terminal 1\"\nmsg.Gate     = msg.Gate\n\nreturn msg;","outputs":1,"noerr":0,"x":830,"y":220,"wires":[["ad824a6.0da7c38"]]},{"id":"6cbfc11c.f4e88","type":"subflow","name":"Initializing","info":"","category":"","in":[{"x":260,"y":100,"wires":[{"id":"e5fca08c.9b1268"}]}],"out":[{"x":980,"y":300,"wires":[{"id":"3810ca7d.518c96","port":0}]}]},{"id":"e5fca08c.9b1268","type":"function","z":"6cbfc11c.f4e88","name":"Set Time","func":"\n\n\n\nreturn msg;\n\n\n\n\nfunction generateRandomNumber(min_value , max_value) \n{\n    return Math.floor(Math.random() * (max_value-min_value) + min_value) ;\n}","outputs":1,"noerr":0,"x":640,"y":100,"wires":[["3810ca7d.518c96"]]},{"id":"3810ca7d.518c96","type":"function","z":"6cbfc11c.f4e88","name":"Passenger Path Selector","func":"\n\nmsg.wasAtLounge = \"no\"\n\nreturn msg;\n\n\nfunction generateRandomNumber(min_value , max_value) \n{\n    return Math.floor(Math.random() * (max_value-min_value) + min_value) ;\n}","outputs":1,"noerr":0,"x":790,"y":320,"wires":[[]]},{"id":"7ec572ed.221ecc","type":"subflow","name":"Leave Departure Hall","info":"","category":"","in":[{"x":200,"y":220,"wires":[{"id":"280d2d18.c04372"}]}],"out":[]},{"id":"280d2d18.c04372","type":"function","z":"7ec572ed.221ecc","name":"Leave Departure Hall (Non-PAX)","func":"\n\n// Time to station\n\ndiff     = 10\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVING Departure Hall\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;","outputs":1,"noerr":0,"x":410,"y":220,"wires":[["89063c3a.64884"]]},{"id":"89063c3a.64884","type":"subflow:227b5102.e87fa6","z":"7ec572ed.221ecc","name":"","x":750,"y":220,"wires":[]},{"id":"46ceeb38.677c2c","type":"subflow","name":"Enter Departure Hall ","info":"","category":"","in":[{"x":500,"y":100,"wires":[{"id":"d2972284.679ca"}]}],"out":[{"x":900,"y":100,"wires":[{"id":"d2972284.679ca","port":0}]}]},{"id":"d2972284.679ca","type":"function","z":"46ceeb38.677c2c","name":"Enter Departure Hall","func":"var terminal = 1\n\nmsg.STEP     = \"ENTER Departure Hall\"\nmsg.LOCATION = \"Terminal 1\"\n\nvar year  = 2018\nvar month = generateRandomNumber(1,12)\n\nif(month==1 || month==3 ||month==5 || month==7 || month==9 || month==10 || month==12)\n  day=generateRandomNumber(1,31)\nelse if (month==2)\n    day = generateRandomNumber(1,28)\nelse\n    day = generateRandomNumber(1,30)\n    \nvar hour   = generateRandomNumber(5,20)\nvar minute = generateRandomNumber(0,59)\n  \n\nmsg.time = new Date(year, month, day, hour, minute,0)\n\n\nvar count=context.get('count') || 0;\n\nmsg.destination  = msg.payload % 10\nmsg.lounge       = generateRandomNumber(0,9)\nmsg.duty_free    = generateRandomNumber(0,9)\nmsg.dining       = generateRandomNumber(0,9)\n\ntraffic_low_factor   = 1\ntraffic_peek_factor  = 3\ntraffic_std_factor   = 2\ntraffic_factor       = 0\n\nif(generateRandomNumber(0,9) == 1 || generateRandomNumber(0,9) == 2){\n    \n   msg.passport_control = 1 \n}\n\n\nhour = msg.time.getHours()\n\n\nswitch(hour) {\n  case 8:\n    msg.traffic_factor = traffic_peek_factor;\n    break;\n  case 9:\n    msg.traffic_factor = traffic_peek_factor;\n    break;\n  case 10:\n    msg.traffic_factor = traffic_peek_factor;\n    break;\n  case 17:\n    msg.traffic_factor = traffic_peek_factor;\n    break;\n  case 18:\n    msg.traffic_factor = traffic_peek_factor;\n    break;\n  case 19:\n    msg.traffic_factor = traffic_peek_factor;\n    break;\n  case 11:\n    msg.traffic_factor = traffic_low_factor;\n    break;\n  case 12:\n    msg.traffic_factor = traffic_low_factor;\n    break;\n  case 13:\n    msg.traffic_factor = traffic_low_factor;\n    break;\n  default:\n    msg.traffic_factor = traffic_std_factor;\n}\n\n\nreturn msg;\n\n\n\n\nfunction generateRandomNumber(min_value , max_value) \n{\n    return Math.floor(Math.random() * (max_value-min_value) + min_value) ;\n}\n\n\n","outputs":1,"noerr":0,"x":680,"y":100,"wires":[["f079f2cc.7f8248"]]},{"id":"f079f2cc.7f8248","type":"subflow:227b5102.e87fa6","z":"46ceeb38.677c2c","name":"","x":990,"y":160,"wires":[]},{"id":"8e24319a.9d525","type":"subflow","name":"Event to Log (Security)","info":"var originalPayload = msg.payload;\n\nvar newPayload = {};\nnewPayload._time    = msg.time;\nnewPayload._msgid   = msg._msgid;\nnewPayload.STEP     = msg.STEP;\nnewPayload.LOCATION = msg.LOCATION;\n\nmsg.payload = newPayload\n\n\n\nreturn msg;","category":"","in":[{"x":220,"y":300,"wires":[{"id":"7d0787aa.a092c8"}]}],"out":[]},{"id":"7d0787aa.a092c8","type":"function","z":"8e24319a.9d525","name":"Prepare CSV","func":"var originalPayload = msg.payload;\n\nvar newPayload = {};\nnewPayload._time    = msg.time;\nnewPayload._msgid   = msg._msgid;\nnewPayload.STEP     = msg.STEP;\nnewPayload.LOCATION = msg.LOCATION;\n\nmsg.payload = newPayload\n\n\n\nreturn msg;","outputs":1,"noerr":0,"x":440,"y":300,"wires":[["52b0e00.73a74a"]]},{"id":"69b7622d.81889c","type":"file","z":"8e24319a.9d525","name":"airport-security","filename":"/tmp/airport-security.csv","appendNewline":true,"createDir":true,"overwriteFile":"false","x":960,"y":320,"wires":[[]]},{"id":"4735c298.cc9c6c","type":"file","z":"8e24319a.9d525","name":"airport-total","filename":"/tmp/airport-total.csv","appendNewline":true,"createDir":true,"overwriteFile":"false","x":950,"y":220,"wires":[[]]},{"id":"52b0e00.73a74a","type":"csv","z":"8e24319a.9d525","name":"","sep":",","hdrin":"","hdrout":"","multi":"one","ret":"\\n","temp":"_time, _msgid, STEP, LOCATION, GATE","skip":"0","x":680,"y":240,"wires":[["4735c298.cc9c6c","69b7622d.81889c"]]},{"id":"6f6f0e8d.b3a7f","type":"subflow","name":"Security Area","info":"","category":"","in":[{"x":180,"y":180,"wires":[{"id":"aecff24e.ffb14"}]}],"out":[{"x":1000,"y":180,"wires":[{"id":"98c1deef.96b55","port":0}]}]},{"id":"aecff24e.ffb14","type":"function","z":"6f6f0e8d.b3a7f","name":"Enter Security Lane","func":"\n// Time to station\n\ndiff     = 5\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Security Lane\"\nmsg.LOCATION = \"SEC-LANE-5\"\n\nreturn msg;","outputs":1,"noerr":0,"x":370,"y":180,"wires":[["2e95ea65.62ee3e","c630ed12.f0fa8"]]},{"id":"2e95ea65.62ee3e","type":"function","z":"6f6f0e8d.b3a7f","name":"Enter Security","func":"\n// Time in station\n\ndiff     = 8\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Security Check\"\nmsg.LOCATION = \"SEC-POS-2\"\n\nreturn msg;","outputs":1,"noerr":0,"x":620,"y":180,"wires":[["98c1deef.96b55","c630ed12.f0fa8"]]},{"id":"98c1deef.96b55","type":"function","z":"6f6f0e8d.b3a7f","name":"Leave Security","func":"\n// Time in station\n\ndiff     = 2\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVE Security Check\"\nmsg.LOCATION = \"SEC-POS-2\"\n\nreturn msg;","outputs":1,"noerr":0,"x":840,"y":180,"wires":[["c630ed12.f0fa8"]]},{"id":"c630ed12.f0fa8","type":"subflow:8e24319a.9d525","z":"6f6f0e8d.b3a7f","name":"","x":1080,"y":280,"wires":[]},{"id":"b76db897.5ad8b","type":"subflow","name":"Check-In Area","info":"","category":"","in":[{"x":220,"y":280,"wires":[{"id":"c3a49a99.df146"}]}],"out":[{"x":840,"y":280,"wires":[{"id":"b40e37d6.779668","port":0}]}]},{"id":"c3a49a99.df146","type":"function","z":"b76db897.5ad8b","name":"Enter Check-In Area","func":"\n// Time to station\n\ndiff     = 5\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Check-In Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;","outputs":1,"noerr":0,"x":380,"y":280,"wires":[["b40e37d6.779668","51694c55.3e903c"]]},{"id":"b40e37d6.779668","type":"function","z":"b76db897.5ad8b","name":"Leave Check-In Area","func":"\n// Time to station\n\ndiff     = 6\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVE Check-In Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;","outputs":1,"noerr":0,"x":640,"y":280,"wires":[["51694c55.3e903c"]]},{"id":"51694c55.3e903c","type":"subflow:227b5102.e87fa6","z":"b76db897.5ad8b","name":"","x":930,"y":360,"wires":[]},{"id":"227b5102.e87fa6","type":"subflow","name":"Event to Log (Public Area)","info":"","category":"","in":[{"x":240,"y":340,"wires":[{"id":"38051518.0877b2"}]}],"out":[]},{"id":"38051518.0877b2","type":"function","z":"227b5102.e87fa6","name":"Prepare CSV","func":"var originalPayload = msg.payload;\n\nvar newPayload = {};\nnewPayload._time    = msg.time;\nnewPayload._msgid   = msg._msgid;\nnewPayload.STEP     = msg.STEP;\nnewPayload.LOCATION = msg.LOCATION;\n\nmsg.payload = newPayload\n\n\n\nreturn msg;","outputs":1,"noerr":0,"x":440,"y":340,"wires":[["954ca9e6.043a68"]],"outputLabels":["airport-toal"]},{"id":"2aed2343.c926ac","type":"file","z":"227b5102.e87fa6","name":"airport-total","filename":"/tmp/airport-total.csv","appendNewline":true,"createDir":true,"overwriteFile":"false","x":950,"y":340,"wires":[[]]},{"id":"116c436d.037a2d","type":"file","z":"227b5102.e87fa6","name":"airport-public-area","filename":"/tmp/airport-public-area.csv","appendNewline":true,"createDir":true,"overwriteFile":"false","x":970,"y":400,"wires":[[]]},{"id":"954ca9e6.043a68","type":"csv","z":"227b5102.e87fa6","name":"","sep":",","hdrin":"","hdrout":"","multi":"one","ret":"\\n","temp":"_time, _msgid, STEP, LOCATION, GATE","skip":"0","x":700,"y":260,"wires":[["2aed2343.c926ac","116c436d.037a2d"]]},{"id":"146c2bab.5c032c","type":"subflow","name":"Baggage Area","info":"","category":"","in":[{"x":260,"y":620,"wires":[{"id":"b7acdb29.f52b98"}]}],"out":[{"x":1040,"y":620,"wires":[{"id":"7ae1e10f.d5ee4","port":0}]}]},{"id":"b7acdb29.f52b98","type":"function","z":"146c2bab.5c032c","name":"Enter Baggage-Drop Area","func":"\n// Time to station\n\ndiff     = 5\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Baggage-Drop Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;","outputs":1,"noerr":0,"x":480,"y":620,"wires":[["7ae1e10f.d5ee4","e6d4ff09.59b9a"]]},{"id":"7ae1e10f.d5ee4","type":"function","z":"146c2bab.5c032c","name":"Leave Baggage-Drop Area","func":"\n// Time in station\n\ndiff     = 3\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVE Baggage-Drop Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;","outputs":1,"noerr":0,"x":820,"y":620,"wires":[["e6d4ff09.59b9a"]]},{"id":"e6d4ff09.59b9a","type":"subflow:227b5102.e87fa6","z":"146c2bab.5c032c","name":"","x":1130,"y":700,"wires":[]},{"id":"82cb6356.f26cf8","type":"tab","label":"Aiport Passenger Flow","disabled":false,"info":""},{"id":"18b1cf37.df7951","type":"subflow:146c2bab.5c032c","z":"82cb6356.f26cf8","name":"Baggage-Drop","x":1220,"y":160,"wires":[["8845655b.31af08"]]},{"id":"44df0f20.72ec18","type":"subflow:b76db897.5ad8b","z":"82cb6356.f26cf8","name":"Check-In Area","x":1220,"y":240,"wires":[["8845655b.31af08"]]},{"id":"8845655b.31af08","type":"subflow:6f6f0e8d.b3a7f","z":"82cb6356.f26cf8","name":"Security Area","x":1450,"y":200,"wires":[["81b33670.36b7e"]]},{"id":"d4340e7a.84c7d","type":"subflow:46ceeb38.677c2c","z":"82cb6356.f26cf8","name":"Enter Departure Hall","env":[],"x":560,"y":200,"wires":[["e45a17aa.3496a"]]},{"id":"ae065ae7.5c2a08","type":"subflow:7ec572ed.221ecc","z":"82cb6356.f26cf8","name":"Leave Departure Hall","x":820,"y":300,"wires":[]},{"id":"19aa4d30.1543b3","type":"subflow:6cbfc11c.f4e88","z":"82cb6356.f26cf8","name":"Initializing","env":[],"x":340,"y":200,"wires":[["d4340e7a.84c7d"]]},{"id":"bdacfc0f.43e6e","type":"subflow:3630d46b.61b19c","z":"82cb6356.f26cf8","name":"Gate Area Actions","env":[],"x":1150,"y":840,"wires":[]},{"id":"557f8bc5.e890b4","type":"subflow:1c350c07.aa3fa4","z":"82cb6356.f26cf8","name":"Frequent Flyer Lounge","x":1140,"y":560,"wires":[["2329b7f5.6fe4b8"]]},{"id":"acf70eb1.992b88","type":"switch","z":"82cb6356.f26cf8","name":"Visits Frequent Flyer Lounge?","property":"lounge","propertyType":"msg","rules":[{"t":"btwn","v":"0","vt":"num","v2":"2","v2t":"num"},{"t":"else"}],"checkall":"true","repair":false,"outputs":2,"x":550,"y":560,"wires":[["557f8bc5.e890b4"],["2329b7f5.6fe4b8"]]},{"id":"9eba3a8.ff57548","type":"switch","z":"82cb6356.f26cf8","name":"Visit Dining Area?","property":"dining","propertyType":"msg","rules":[{"t":"btwn","v":"0","vt":"num","v2":"5","v2t":"num"},{"t":"else"}],"checkall":"true","repair":false,"outputs":2,"x":510,"y":720,"wires":[["9028591a.3073b8"],["bdacfc0f.43e6e"]]},{"id":"3fba80c7.fb8088","type":"subflow:539d447e.449914","z":"82cb6356.f26cf8","name":"Duty Free","x":840,"y":660,"wires":[["519be145.ea7028"]]},{"id":"9028591a.3073b8","type":"subflow:aa3cc605.1c1bb8","z":"82cb6356.f26cf8","name":"Dining Area","x":850,"y":720,"wires":[["bdacfc0f.43e6e"]]},{"id":"2329b7f5.6fe4b8","type":"switch","z":"82cb6356.f26cf8","name":"Visits Duty Free?","property":"duty_free","propertyType":"msg","rules":[{"t":"btwn","v":"3","vt":"num","v2":"6","v2t":"num"},{"t":"else"}],"checkall":"true","repair":false,"outputs":2,"x":510,"y":640,"wires":[["3fba80c7.fb8088"],["9eba3a8.ff57548"]]},{"id":"81b33670.36b7e","type":"switch","z":"82cb6356.f26cf8","name":"Passport-Control?","property":"passport_control","propertyType":"msg","rules":[{"t":"eq","v":"1","vt":"str"},{"t":"else"}],"checkall":"true","repair":false,"outputs":2,"x":170,"y":500,"wires":[["9a0b5656.59023"],["acf70eb1.992b88"]]},{"id":"9a0b5656.59023","type":"subflow:719245b9.2e63a4","z":"82cb6356.f26cf8","name":"","x":510,"y":480,"wires":[["acf70eb1.992b88"]]},{"id":"e45a17aa.3496a","type":"switch","z":"82cb6356.f26cf8","name":"Departure Behaviour?","property":"destination","propertyType":"msg","rules":[{"t":"btwn","v":"1","vt":"num","v2":"2","v2t":"num"},{"t":"btwn","v":"3","vt":"num","v2":"6","v2t":"num"},{"t":"btwn","v":"7","vt":"num","v2":"9","v2t":"num"},{"t":"eq","v":"0","vt":"str"}],"checkall":"true","repair":false,"outputs":4,"x":820,"y":200,"wires":[["18b1cf37.df7951"],["8845655b.31af08"],["44df0f20.72ec18"],["ae065ae7.5c2a08"]]},{"id":"7ac6fed0.30a1","type":"inject","z":"82cb6356.f26cf8","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"onceDelay":0.1,"x":160,"y":200,"wires":[["19aa4d30.1543b3"]]},{"id":"519be145.ea7028","type":"subflow:d38399f9.214e8","z":"82cb6356.f26cf8","name":"to Lounge?","x":1110,"y":660,"wires":[["557f8bc5.e890b4"],["9eba3a8.ff57548"]]}]
+[
+    {
+        "id": "d38399f9.214e8",
+        "type": "subflow",
+        "name": "toLounge?",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 200,
+                "y": 380,
+                "wires": [
+                    {
+                        "id": "9905add7.0a9b6"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 760,
+                "y": 320,
+                "wires": [
+                    {
+                        "id": "b192a133.60ac4",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 760,
+                "y": 420,
+                "wires": [
+                    {
+                        "id": "b192a133.60ac4",
+                        "port": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "9905add7.0a9b6",
+        "type": "function",
+        "z": "d38399f9.214e8",
+        "name": "willVisitLounge",
+        "func": "\nvar willVisitLounge = \"no\" \n\nvar x = generateRandomNumber(0,100)\n\nif(x > 60 && msg.wasAtLounge != \"yes\"){\n    \n   willVisitLounge = \"yes\" \n}\n\nmsg.willVisitLounge = willVisitLounge\nmsg.x = x\n\nreturn msg;\n\nfunction generateRandomNumber(min_value , max_value) \n{\n    return Math.floor(Math.random() * (max_value-min_value) + min_value) ;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 380,
+        "wires": [
+            [
+                "b192a133.60ac4"
+            ]
+        ]
+    },
+    {
+        "id": "b192a133.60ac4",
+        "type": "switch",
+        "z": "d38399f9.214e8",
+        "name": "to Lounge?",
+        "property": "willVisitLounge",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "yes",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 570,
+        "y": 380,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "a57f035.2c2398",
+        "type": "debug",
+        "z": "d38399f9.214e8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "x",
+        "x": 760,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "f360675f.7f07d",
+        "type": "debug",
+        "z": "d38399f9.214e8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "willVisitLounge",
+        "x": 780,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "f0817e53.f780a",
+        "type": "debug",
+        "z": "d38399f9.214e8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "wasAtLounge",
+        "x": 780,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "719245b9.2e63a4",
+        "type": "subflow",
+        "name": "Passport Control",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 320,
+                "y": 280,
+                "wires": [
+                    {
+                        "id": "b55d642e.3306b"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 860,
+                "y": 280,
+                "wires": [
+                    {
+                        "id": "b55d642e.3306b",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "b55d642e.3306b",
+        "type": "function",
+        "z": "719245b9.2e63a4",
+        "name": "Passport Control",
+        "func": "\n// Time to station\n\ndiff     = 2\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"Passport Control\"\nmsg.LOCATION = \"Border-Control Booth 1\"\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 600,
+        "y": 280,
+        "wires": [
+            [
+                "6ad39693.a5ed5"
+            ]
+        ]
+    },
+    {
+        "id": "6ad39693.a5ed5",
+        "type": "subflow:3b6ecce1.a5b51c",
+        "z": "719245b9.2e63a4",
+        "name": "",
+        "env": [],
+        "x": 960,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "aa3cc605.1c1bb8",
+        "type": "subflow",
+        "name": "Dining Area",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 240,
+                "y": 320,
+                "wires": [
+                    {
+                        "id": "7e4686ab.e69ba"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 840,
+                "y": 320,
+                "wires": [
+                    {
+                        "id": "774cfeb7.f78a28",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "7e4686ab.e69ba",
+        "type": "function",
+        "z": "aa3cc605.1c1bb8",
+        "name": "Enter Dining Area",
+        "func": "\n// Time to station\n\ndiff     = 8\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Dining Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 430,
+        "y": 320,
+        "wires": [
+            [
+                "774cfeb7.f78a28",
+                "7d9553a5.a3c004"
+            ]
+        ]
+    },
+    {
+        "id": "774cfeb7.f78a28",
+        "type": "function",
+        "z": "aa3cc605.1c1bb8",
+        "name": "Leave Dining Area",
+        "func": "\n// Time to station\n\ndiff     = 25\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVE Dining Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 670,
+        "y": 320,
+        "wires": [
+            [
+                "7d9553a5.a3c004"
+            ]
+        ]
+    },
+    {
+        "id": "7d9553a5.a3c004",
+        "type": "subflow:3b6ecce1.a5b51c",
+        "z": "aa3cc605.1c1bb8",
+        "name": "",
+        "x": 920,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "539d447e.449914",
+        "type": "subflow",
+        "name": "Duty Free",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 220,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "13cf3517.42fbb3"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 880,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "dd21f803.698c6",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "13cf3517.42fbb3",
+        "type": "function",
+        "z": "539d447e.449914",
+        "name": "Enter Duty Free",
+        "func": "\n// Time to station\n\ndiff     = 3\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Duty Free Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 420,
+        "y": 200,
+        "wires": [
+            [
+                "dd21f803.698c6",
+                "5cc98b59.cad1a4"
+            ]
+        ]
+    },
+    {
+        "id": "dd21f803.698c6",
+        "type": "function",
+        "z": "539d447e.449914",
+        "name": "Leave Duty Free",
+        "func": "\n// Time in station\n\ndiff     = 4\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVE Duty Free Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 680,
+        "y": 200,
+        "wires": [
+            [
+                "5cc98b59.cad1a4"
+            ]
+        ]
+    },
+    {
+        "id": "5cc98b59.cad1a4",
+        "type": "subflow:3b6ecce1.a5b51c",
+        "z": "539d447e.449914",
+        "name": "",
+        "x": 950,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "1c350c07.aa3fa4",
+        "type": "subflow",
+        "name": "Frequent Flyer Lounge Area",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 190,
+                "y": 180,
+                "wires": [
+                    {
+                        "id": "ac1b32bd.dd4ff8"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 950,
+                "y": 180,
+                "wires": [
+                    {
+                        "id": "62d74eec.f0f61",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "ac1b32bd.dd4ff8",
+        "type": "function",
+        "z": "1c350c07.aa3fa4",
+        "name": "Enter Frequent Flyer Lounge",
+        "func": "\n// Time to station\n\n\ndiff     = 5\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Frequent Flyer Lounge\"\nmsg.LOCATION = \"Terminal 1\"\n\nvar wasAtLounge = \"yes\"\n\nmsg.wasAtLounge = wasAtLounge\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 400,
+        "y": 180,
+        "wires": [
+            [
+                "62d74eec.f0f61",
+                "9d83442d.ae2e88"
+            ]
+        ]
+    },
+    {
+        "id": "62d74eec.f0f61",
+        "type": "function",
+        "z": "1c350c07.aa3fa4",
+        "name": "Leave Frequent Flyer Lounge",
+        "func": "\n// Time in station\n\ndiff     = 25\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVE Frequent Flyer Lounge\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 740,
+        "y": 180,
+        "wires": [
+            [
+                "9d83442d.ae2e88"
+            ]
+        ]
+    },
+    {
+        "id": "9d83442d.ae2e88",
+        "type": "subflow:3b6ecce1.a5b51c",
+        "z": "1c350c07.aa3fa4",
+        "name": "",
+        "x": 1020,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "3b6ecce1.a5b51c",
+        "type": "subflow",
+        "name": "Event to Log (Secure-Area)",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 520,
+                "y": 260,
+                "wires": [
+                    {
+                        "id": "ca3af2aa.30f39"
+                    }
+                ]
+            }
+        ],
+        "out": []
+    },
+    {
+        "id": "6c87037.9b27f7c",
+        "type": "file",
+        "z": "3b6ecce1.a5b51c",
+        "name": "airport-total",
+        "filename": "/tmp/airport-total.csv",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "x": 1210,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ca3af2aa.30f39",
+        "type": "function",
+        "z": "3b6ecce1.a5b51c",
+        "name": "Prepare CSV",
+        "func": "var originalPayload = msg.payload;\n\nvar newPayload = {};\nnewPayload._time    = msg.time;\nnewPayload._msgid   = msg._msgid;\nnewPayload.STEP     = msg.STEP;\nnewPayload.LOCATION = msg.LOCATION;\nnewPayload.GATE     = msg.GATE;\n\nmsg.payload = newPayload\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 670,
+        "y": 260,
+        "wires": [
+            [
+                "bd32a81e.a13a",
+                "86cde9f1.ef0138"
+            ]
+        ]
+    },
+    {
+        "id": "59fe89e1.93726",
+        "type": "file",
+        "z": "3b6ecce1.a5b51c",
+        "name": "airport-secure-area",
+        "filename": "/tmp/airport-secure-area.csv",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "x": 1270,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bd32a81e.a13a",
+        "type": "function",
+        "z": "3b6ecce1.a5b51c",
+        "name": "Prepare CSV",
+        "func": "var originalPayload = msg.payload;\n\nvar newPayload = {};\nnewPayload._time    = msg.time;\nnewPayload.pax_id   = msg._msgid;\nnewPayload.STEP     = msg.STEP;\nnewPayload.LOCATION = msg.LOCATION;\nnewPayload.GATE     = msg.GATE;\n\nmsg.payload = newPayload\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 890,
+        "y": 340,
+        "wires": [
+            [
+                "83162387.0892d"
+            ]
+        ]
+    },
+    {
+        "id": "86cde9f1.ef0138",
+        "type": "csv",
+        "z": "3b6ecce1.a5b51c",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "_time, _msgid, STEP, LOCATION, GATE",
+        "skip": "0",
+        "x": 920,
+        "y": 180,
+        "wires": [
+            [
+                "6c87037.9b27f7c"
+            ]
+        ]
+    },
+    {
+        "id": "83162387.0892d",
+        "type": "csv",
+        "z": "3b6ecce1.a5b51c",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "_time, pax_id, STEP, LOCATION, GATE",
+        "skip": "0",
+        "x": 1060,
+        "y": 360,
+        "wires": [
+            [
+                "59fe89e1.93726"
+            ]
+        ]
+    },
+    {
+        "id": "3630d46b.61b19c",
+        "type": "subflow",
+        "name": "Boarding Gate",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 200,
+                "y": 340,
+                "wires": [
+                    {
+                        "id": "18a664c1.d0dcab"
+                    }
+                ]
+            }
+        ],
+        "out": []
+    },
+    {
+        "id": "18a664c1.d0dcab",
+        "type": "function",
+        "z": "3630d46b.61b19c",
+        "name": "Arrive Boarding Gate",
+        "func": "\n// Time to station\n\ndiff     = 6\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Bording Gate Area\";\n\n\nmsg.LOCATION = \"Terminal 1\"\n\n\nif(msg.LOCATION == \"Terminal 1\"){\n    var rnd = generateRandomNumber(0,100)\n    if(rnd>66){\n        var area = \"A\";\n     } else {\n        var area = \"B\";\n     }   \n    msg.GATE = area + generateRandomNumber(1,20).toString();\n } else {\n    msg.GATE = \"C\" + generateRandomNumber(1,30).toString();\n }\n\n\nvar deniedBoarding = generateRandomNumber(1,1000)\nif(deniedBoarding > 998)\n    msg.deniedBoarding = 1;\nelse \n    msg.deniedBoarding = 0;\n\n\nreturn msg;\n\n\nfunction generateRandomNumber(min_value , max_value) \n{\n    return Math.floor(Math.random() * (max_value-min_value) + min_value) ;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360,
+        "y": 340,
+        "wires": [
+            [
+                "ad824a6.0da7c38",
+                "bd38352b.ad01c"
+            ]
+        ]
+    },
+    {
+        "id": "2bdb021e.ad5d4e",
+        "type": "function",
+        "z": "3630d46b.61b19c",
+        "name": "Board Flight",
+        "func": "\n// Time to station\n\ndiff     = 20\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"BOARD Aircraft\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 810,
+        "y": 300,
+        "wires": [
+            [
+                "ad824a6.0da7c38"
+            ]
+        ]
+    },
+    {
+        "id": "ad824a6.0da7c38",
+        "type": "subflow:3b6ecce1.a5b51c",
+        "z": "3630d46b.61b19c",
+        "name": "",
+        "x": 1140,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "bd38352b.ad01c",
+        "type": "switch",
+        "z": "3630d46b.61b19c",
+        "name": "",
+        "property": "deniedBoarding",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 610,
+        "y": 220,
+        "wires": [
+            [
+                "5745efb5.327f28"
+            ],
+            [
+                "2bdb021e.ad5d4e"
+            ]
+        ]
+    },
+    {
+        "id": "5745efb5.327f28",
+        "type": "function",
+        "z": "3630d46b.61b19c",
+        "name": "Denied Boarding",
+        "func": "\n// Time to station\n\ndiff     = 20\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"Leave Secure Area (Flight missed / Denied Boarding)\"\nmsg.LOCATION = \"Terminal 1\"\nmsg.Gate     = msg.Gate\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 830,
+        "y": 220,
+        "wires": [
+            [
+                "ad824a6.0da7c38"
+            ]
+        ]
+    },
+    {
+        "id": "6cbfc11c.f4e88",
+        "type": "subflow",
+        "name": "Initializing",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 260,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "e5fca08c.9b1268"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 980,
+                "y": 300,
+                "wires": [
+                    {
+                        "id": "3810ca7d.518c96",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "e5fca08c.9b1268",
+        "type": "function",
+        "z": "6cbfc11c.f4e88",
+        "name": "Set Time",
+        "func": "\n\n\n\nreturn msg;\n\n\n\n\nfunction generateRandomNumber(min_value , max_value) \n{\n    return Math.floor(Math.random() * (max_value-min_value) + min_value) ;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 640,
+        "y": 100,
+        "wires": [
+            [
+                "3810ca7d.518c96"
+            ]
+        ]
+    },
+    {
+        "id": "3810ca7d.518c96",
+        "type": "function",
+        "z": "6cbfc11c.f4e88",
+        "name": "Passenger Path Selector",
+        "func": "\n\nmsg.wasAtLounge = \"no\"\n\nreturn msg;\n\n\nfunction generateRandomNumber(min_value , max_value) \n{\n    return Math.floor(Math.random() * (max_value-min_value) + min_value) ;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 790,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7ec572ed.221ecc",
+        "type": "subflow",
+        "name": "Leave Departure Hall",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 200,
+                "y": 220,
+                "wires": [
+                    {
+                        "id": "280d2d18.c04372"
+                    }
+                ]
+            }
+        ],
+        "out": []
+    },
+    {
+        "id": "280d2d18.c04372",
+        "type": "function",
+        "z": "7ec572ed.221ecc",
+        "name": "Leave Departure Hall (Non-PAX)",
+        "func": "\n\n// Time to station\n\ndiff     = 10\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVING Departure Hall\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 410,
+        "y": 220,
+        "wires": [
+            [
+                "89063c3a.64884"
+            ]
+        ]
+    },
+    {
+        "id": "89063c3a.64884",
+        "type": "subflow:227b5102.e87fa6",
+        "z": "7ec572ed.221ecc",
+        "name": "",
+        "x": 750,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "46ceeb38.677c2c",
+        "type": "subflow",
+        "name": "Enter Departure Hall ",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 500,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "d2972284.679ca"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 900,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "d2972284.679ca",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "d2972284.679ca",
+        "type": "function",
+        "z": "46ceeb38.677c2c",
+        "name": "Enter Departure Hall",
+        "func": "var terminal = 1\n\nmsg.STEP     = \"ENTER Departure Hall\"\nmsg.LOCATION = \"Terminal 1\"\n\nvar year  = 2018\nvar month = generateRandomNumber(1,12)\n\nif(month==1 || month==3 ||month==5 || month==7 || month==9 || month==10 || month==12)\n  day=generateRandomNumber(1,31)\nelse if (month==2)\n    day = generateRandomNumber(1,28)\nelse\n    day = generateRandomNumber(1,30)\n    \nvar hour   = generateRandomNumber(5,20)\nvar minute = generateRandomNumber(0,59)\n  \n\nmsg.time = new Date(year, month, day, hour, minute,0)\n\n\nvar count=context.get('count') || 0;\n\nmsg.destination  = msg.payload % 10\nmsg.lounge       = generateRandomNumber(0,9)\nmsg.duty_free    = generateRandomNumber(0,9)\nmsg.dining       = generateRandomNumber(0,9)\n\ntraffic_low_factor   = 1\ntraffic_peek_factor  = 3\ntraffic_std_factor   = 2\ntraffic_factor       = 0\n\nif(generateRandomNumber(0,9) == 1 || generateRandomNumber(0,9) == 2){\n    \n   msg.passport_control = 1 \n}\n\n\nhour = msg.time.getHours()\n\n\nswitch(hour) {\n  case 8:\n    msg.traffic_factor = traffic_peek_factor;\n    break;\n  case 9:\n    msg.traffic_factor = traffic_peek_factor;\n    break;\n  case 10:\n    msg.traffic_factor = traffic_peek_factor;\n    break;\n  case 17:\n    msg.traffic_factor = traffic_peek_factor;\n    break;\n  case 18:\n    msg.traffic_factor = traffic_peek_factor;\n    break;\n  case 19:\n    msg.traffic_factor = traffic_peek_factor;\n    break;\n  case 11:\n    msg.traffic_factor = traffic_low_factor;\n    break;\n  case 12:\n    msg.traffic_factor = traffic_low_factor;\n    break;\n  case 13:\n    msg.traffic_factor = traffic_low_factor;\n    break;\n  default:\n    msg.traffic_factor = traffic_std_factor;\n}\n\n\nreturn msg;\n\n\n\n\nfunction generateRandomNumber(min_value , max_value) \n{\n    return Math.floor(Math.random() * (max_value-min_value) + min_value) ;\n}\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 680,
+        "y": 100,
+        "wires": [
+            [
+                "f079f2cc.7f8248"
+            ]
+        ]
+    },
+    {
+        "id": "f079f2cc.7f8248",
+        "type": "subflow:227b5102.e87fa6",
+        "z": "46ceeb38.677c2c",
+        "name": "",
+        "x": 990,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "8e24319a.9d525",
+        "type": "subflow",
+        "name": "Event to Log (Security)",
+        "info": "var originalPayload = msg.payload;\n\nvar newPayload = {};\nnewPayload._time    = msg.time;\nnewPayload._msgid   = msg._msgid;\nnewPayload.STEP     = msg.STEP;\nnewPayload.LOCATION = msg.LOCATION;\n\nmsg.payload = newPayload\n\n\n\nreturn msg;",
+        "category": "",
+        "in": [
+            {
+                "x": 220,
+                "y": 300,
+                "wires": [
+                    {
+                        "id": "7d0787aa.a092c8"
+                    }
+                ]
+            }
+        ],
+        "out": []
+    },
+    {
+        "id": "7d0787aa.a092c8",
+        "type": "function",
+        "z": "8e24319a.9d525",
+        "name": "Prepare CSV",
+        "func": "var originalPayload = msg.payload;\n\nvar newPayload = {};\nnewPayload._time    = msg.time;\nnewPayload._msgid   = msg._msgid;\nnewPayload.STEP     = msg.STEP;\nnewPayload.LOCATION = msg.LOCATION;\n\nmsg.payload = newPayload\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440,
+        "y": 300,
+        "wires": [
+            [
+                "52b0e00.73a74a"
+            ]
+        ]
+    },
+    {
+        "id": "69b7622d.81889c",
+        "type": "file",
+        "z": "8e24319a.9d525",
+        "name": "airport-security",
+        "filename": "/tmp/airport-security.csv",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "x": 960,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4735c298.cc9c6c",
+        "type": "file",
+        "z": "8e24319a.9d525",
+        "name": "airport-total",
+        "filename": "/tmp/airport-total.csv",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "x": 950,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "52b0e00.73a74a",
+        "type": "csv",
+        "z": "8e24319a.9d525",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "_time, _msgid, STEP, LOCATION, GATE",
+        "skip": "0",
+        "x": 680,
+        "y": 240,
+        "wires": [
+            [
+                "4735c298.cc9c6c",
+                "69b7622d.81889c"
+            ]
+        ]
+    },
+    {
+        "id": "6f6f0e8d.b3a7f",
+        "type": "subflow",
+        "name": "Security Area",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 180,
+                "y": 180,
+                "wires": [
+                    {
+                        "id": "aecff24e.ffb14"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1000,
+                "y": 180,
+                "wires": [
+                    {
+                        "id": "98c1deef.96b55",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "aecff24e.ffb14",
+        "type": "function",
+        "z": "6f6f0e8d.b3a7f",
+        "name": "Enter Security Lane",
+        "func": "\n// Time to station\n\ndiff     = 5\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Security Lane\"\nmsg.LOCATION = \"SEC-LANE-5\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 370,
+        "y": 180,
+        "wires": [
+            [
+                "2e95ea65.62ee3e",
+                "c630ed12.f0fa8"
+            ]
+        ]
+    },
+    {
+        "id": "2e95ea65.62ee3e",
+        "type": "function",
+        "z": "6f6f0e8d.b3a7f",
+        "name": "Enter Security",
+        "func": "\n// Time in station\n\ndiff     = 8\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Security Check\"\nmsg.LOCATION = \"SEC-POS-2\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 620,
+        "y": 180,
+        "wires": [
+            [
+                "98c1deef.96b55",
+                "c630ed12.f0fa8"
+            ]
+        ]
+    },
+    {
+        "id": "98c1deef.96b55",
+        "type": "function",
+        "z": "6f6f0e8d.b3a7f",
+        "name": "Leave Security",
+        "func": "\n// Time in station\n\ndiff     = 2\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVE Security Check\"\nmsg.LOCATION = \"SEC-POS-2\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 840,
+        "y": 180,
+        "wires": [
+            [
+                "c630ed12.f0fa8"
+            ]
+        ]
+    },
+    {
+        "id": "c630ed12.f0fa8",
+        "type": "subflow:8e24319a.9d525",
+        "z": "6f6f0e8d.b3a7f",
+        "name": "",
+        "x": 1080,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "b76db897.5ad8b",
+        "type": "subflow",
+        "name": "Check-In Area",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 220,
+                "y": 280,
+                "wires": [
+                    {
+                        "id": "c3a49a99.df146"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 840,
+                "y": 280,
+                "wires": [
+                    {
+                        "id": "b40e37d6.779668",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "c3a49a99.df146",
+        "type": "function",
+        "z": "b76db897.5ad8b",
+        "name": "Enter Check-In Area",
+        "func": "\n// Time to station\n\ndiff     = 5\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Check-In Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 280,
+        "wires": [
+            [
+                "b40e37d6.779668",
+                "51694c55.3e903c"
+            ]
+        ]
+    },
+    {
+        "id": "b40e37d6.779668",
+        "type": "function",
+        "z": "b76db897.5ad8b",
+        "name": "Leave Check-In Area",
+        "func": "\n// Time to station\n\ndiff     = 6\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVE Check-In Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 640,
+        "y": 280,
+        "wires": [
+            [
+                "51694c55.3e903c"
+            ]
+        ]
+    },
+    {
+        "id": "51694c55.3e903c",
+        "type": "subflow:227b5102.e87fa6",
+        "z": "b76db897.5ad8b",
+        "name": "",
+        "x": 930,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "227b5102.e87fa6",
+        "type": "subflow",
+        "name": "Event to Log (Public Area)",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 240,
+                "y": 340,
+                "wires": [
+                    {
+                        "id": "38051518.0877b2"
+                    }
+                ]
+            }
+        ],
+        "out": []
+    },
+    {
+        "id": "38051518.0877b2",
+        "type": "function",
+        "z": "227b5102.e87fa6",
+        "name": "Prepare CSV",
+        "func": "var originalPayload = msg.payload;\n\nvar newPayload = {};\nnewPayload._time    = msg.time;\nnewPayload._msgid   = msg._msgid;\nnewPayload.STEP     = msg.STEP;\nnewPayload.LOCATION = msg.LOCATION;\n\nmsg.payload = newPayload\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440,
+        "y": 340,
+        "wires": [
+            [
+                "954ca9e6.043a68"
+            ]
+        ],
+        "outputLabels": [
+            "airport-toal"
+        ]
+    },
+    {
+        "id": "2aed2343.c926ac",
+        "type": "file",
+        "z": "227b5102.e87fa6",
+        "name": "airport-total",
+        "filename": "/tmp/airport-total.csv",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "x": 950,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "116c436d.037a2d",
+        "type": "file",
+        "z": "227b5102.e87fa6",
+        "name": "airport-public-area",
+        "filename": "/tmp/airport-public-area.csv",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "x": 970,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "954ca9e6.043a68",
+        "type": "csv",
+        "z": "227b5102.e87fa6",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "_time, _msgid, STEP, LOCATION, GATE",
+        "skip": "0",
+        "x": 700,
+        "y": 260,
+        "wires": [
+            [
+                "2aed2343.c926ac",
+                "116c436d.037a2d"
+            ]
+        ]
+    },
+    {
+        "id": "146c2bab.5c032c",
+        "type": "subflow",
+        "name": "Baggage Area",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 260,
+                "y": 620,
+                "wires": [
+                    {
+                        "id": "b7acdb29.f52b98"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1040,
+                "y": 620,
+                "wires": [
+                    {
+                        "id": "7ae1e10f.d5ee4",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "b7acdb29.f52b98",
+        "type": "function",
+        "z": "146c2bab.5c032c",
+        "name": "Enter Baggage-Drop Area",
+        "func": "\n// Time to station\n\ndiff     = 5\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"ENTER Baggage-Drop Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 480,
+        "y": 620,
+        "wires": [
+            [
+                "7ae1e10f.d5ee4",
+                "e6d4ff09.59b9a"
+            ]
+        ]
+    },
+    {
+        "id": "7ae1e10f.d5ee4",
+        "type": "function",
+        "z": "146c2bab.5c032c",
+        "name": "Leave Baggage-Drop Area",
+        "func": "\n// Time in station\n\ndiff     = 3\nmsg.time = new Date(msg.time.getTime() + diff*60000 * msg.traffic_factor);\n\nmsg.STEP     = \"LEAVE Baggage-Drop Area\"\nmsg.LOCATION = \"Terminal 1\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 820,
+        "y": 620,
+        "wires": [
+            [
+                "e6d4ff09.59b9a"
+            ]
+        ]
+    },
+    {
+        "id": "e6d4ff09.59b9a",
+        "type": "subflow:227b5102.e87fa6",
+        "z": "146c2bab.5c032c",
+        "name": "",
+        "x": 1130,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "82cb6356.f26cf8",
+        "type": "tab",
+        "label": "Aiport Passenger Flow",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "18b1cf37.df7951",
+        "type": "subflow:146c2bab.5c032c",
+        "z": "82cb6356.f26cf8",
+        "name": "Baggage-Drop",
+        "x": 1220,
+        "y": 160,
+        "wires": [
+            [
+                "8845655b.31af08"
+            ]
+        ]
+    },
+    {
+        "id": "44df0f20.72ec18",
+        "type": "subflow:b76db897.5ad8b",
+        "z": "82cb6356.f26cf8",
+        "name": "Check-In Area",
+        "x": 1220,
+        "y": 240,
+        "wires": [
+            [
+                "8845655b.31af08"
+            ]
+        ]
+    },
+    {
+        "id": "8845655b.31af08",
+        "type": "subflow:6f6f0e8d.b3a7f",
+        "z": "82cb6356.f26cf8",
+        "name": "Security Area",
+        "x": 1450,
+        "y": 200,
+        "wires": [
+            [
+                "81b33670.36b7e"
+            ]
+        ]
+    },
+    {
+        "id": "d4340e7a.84c7d",
+        "type": "subflow:46ceeb38.677c2c",
+        "z": "82cb6356.f26cf8",
+        "name": "Enter Departure Hall",
+        "env": [],
+        "x": 560,
+        "y": 200,
+        "wires": [
+            [
+                "e45a17aa.3496a"
+            ]
+        ]
+    },
+    {
+        "id": "ae065ae7.5c2a08",
+        "type": "subflow:7ec572ed.221ecc",
+        "z": "82cb6356.f26cf8",
+        "name": "Leave Departure Hall",
+        "x": 820,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "19aa4d30.1543b3",
+        "type": "subflow:6cbfc11c.f4e88",
+        "z": "82cb6356.f26cf8",
+        "name": "Initializing",
+        "env": [],
+        "x": 340,
+        "y": 200,
+        "wires": [
+            [
+                "d4340e7a.84c7d"
+            ]
+        ]
+    },
+    {
+        "id": "bdacfc0f.43e6e",
+        "type": "subflow:3630d46b.61b19c",
+        "z": "82cb6356.f26cf8",
+        "name": "Gate Area Actions",
+        "env": [],
+        "x": 1150,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "557f8bc5.e890b4",
+        "type": "subflow:1c350c07.aa3fa4",
+        "z": "82cb6356.f26cf8",
+        "name": "Frequent Flyer Lounge",
+        "x": 1140,
+        "y": 560,
+        "wires": [
+            [
+                "2329b7f5.6fe4b8"
+            ]
+        ]
+    },
+    {
+        "id": "acf70eb1.992b88",
+        "type": "switch",
+        "z": "82cb6356.f26cf8",
+        "name": "Visits Frequent Flyer Lounge?",
+        "property": "lounge",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "btwn",
+                "v": "0",
+                "vt": "num",
+                "v2": "2",
+                "v2t": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 550,
+        "y": 560,
+        "wires": [
+            [
+                "557f8bc5.e890b4"
+            ],
+            [
+                "2329b7f5.6fe4b8"
+            ]
+        ]
+    },
+    {
+        "id": "9eba3a8.ff57548",
+        "type": "switch",
+        "z": "82cb6356.f26cf8",
+        "name": "Visit Dining Area?",
+        "property": "dining",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "btwn",
+                "v": "0",
+                "vt": "num",
+                "v2": "5",
+                "v2t": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 510,
+        "y": 720,
+        "wires": [
+            [
+                "9028591a.3073b8"
+            ],
+            [
+                "bdacfc0f.43e6e"
+            ]
+        ]
+    },
+    {
+        "id": "3fba80c7.fb8088",
+        "type": "subflow:539d447e.449914",
+        "z": "82cb6356.f26cf8",
+        "name": "Duty Free",
+        "x": 840,
+        "y": 660,
+        "wires": [
+            [
+                "519be145.ea7028"
+            ]
+        ]
+    },
+    {
+        "id": "9028591a.3073b8",
+        "type": "subflow:aa3cc605.1c1bb8",
+        "z": "82cb6356.f26cf8",
+        "name": "Dining Area",
+        "x": 850,
+        "y": 720,
+        "wires": [
+            [
+                "bdacfc0f.43e6e"
+            ]
+        ]
+    },
+    {
+        "id": "2329b7f5.6fe4b8",
+        "type": "switch",
+        "z": "82cb6356.f26cf8",
+        "name": "Visits Duty Free?",
+        "property": "duty_free",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "btwn",
+                "v": "3",
+                "vt": "num",
+                "v2": "6",
+                "v2t": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 510,
+        "y": 640,
+        "wires": [
+            [
+                "3fba80c7.fb8088"
+            ],
+            [
+                "9eba3a8.ff57548"
+            ]
+        ]
+    },
+    {
+        "id": "81b33670.36b7e",
+        "type": "switch",
+        "z": "82cb6356.f26cf8",
+        "name": "Passport-Control?",
+        "property": "passport_control",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 170,
+        "y": 500,
+        "wires": [
+            [
+                "9a0b5656.59023"
+            ],
+            [
+                "acf70eb1.992b88"
+            ]
+        ]
+    },
+    {
+        "id": "9a0b5656.59023",
+        "type": "subflow:719245b9.2e63a4",
+        "z": "82cb6356.f26cf8",
+        "name": "",
+        "x": 510,
+        "y": 480,
+        "wires": [
+            [
+                "acf70eb1.992b88"
+            ]
+        ]
+    },
+    {
+        "id": "e45a17aa.3496a",
+        "type": "switch",
+        "z": "82cb6356.f26cf8",
+        "name": "Departure Behaviour?",
+        "property": "destination",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "btwn",
+                "v": "1",
+                "vt": "num",
+                "v2": "2",
+                "v2t": "num"
+            },
+            {
+                "t": "btwn",
+                "v": "3",
+                "vt": "num",
+                "v2": "6",
+                "v2t": "num"
+            },
+            {
+                "t": "btwn",
+                "v": "7",
+                "vt": "num",
+                "v2": "9",
+                "v2t": "num"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 820,
+        "y": 200,
+        "wires": [
+            [
+                "18b1cf37.df7951"
+            ],
+            [
+                "8845655b.31af08"
+            ],
+            [
+                "44df0f20.72ec18"
+            ],
+            [
+                "ae065ae7.5c2a08"
+            ]
+        ]
+    },
+    {
+        "id": "7ac6fed0.30a1",
+        "type": "inject",
+        "z": "82cb6356.f26cf8",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 160,
+        "y": 200,
+        "wires": [
+            [
+                "19aa4d30.1543b3"
+            ]
+        ]
+    },
+    {
+        "id": "519be145.ea7028",
+        "type": "subflow:d38399f9.214e8",
+        "z": "82cb6356.f26cf8",
+        "name": "to Lounge?",
+        "x": 1110,
+        "y": 660,
+        "wires": [
+            [
+                "557f8bc5.e890b4"
+            ],
+            [
+                "9eba3a8.ff57548"
+            ]
+        ]
+    }
+]
