@@ -1,0 +1,71 @@
+[
+    {
+        "id": "adb97a99.63ebf8",
+        "type": "tab",
+        "label": "Twitter Sentiment",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "d1ea35d2.108608",
+        "type": "splunk-http-event-collector",
+        "z": "adb97a99.63ebf8",
+        "name": "",
+        "inputURI": "https://your.splunk.server:8088",
+        "inputToken": "your token",
+        "inputSourcetype": "_json",
+        "inputHost": "your host",
+        "inputIndex": "your index",
+        "inputSource": "your source",
+        "x": 610,
+        "y": 237,
+        "wires": []
+    },
+    {
+        "id": "a654c746.4b301",
+        "type": "debug",
+        "z": "adb97a99.63ebf8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 602,
+        "y": 55,
+        "wires": []
+    },
+    {
+        "id": "7753f29d.db3c1c",
+        "type": "twitter in",
+        "z": "adb97a99.63ebf8",
+        "twitter": "",
+        "tags": "#splunklive,#splunk,#splunkconf19",
+        "user": "false",
+        "name": "SplunkLive tweets",
+        "inputs": 0,
+        "x": 135,
+        "y": 85,
+        "wires": [
+            [
+                "55b9e08c.e9bac8"
+            ]
+        ]
+    },
+    {
+        "id": "55b9e08c.e9bac8",
+        "type": "sentiment",
+        "z": "adb97a99.63ebf8",
+        "name": "",
+        "property": "payload",
+        "x": 349,
+        "y": 160,
+        "wires": [
+            [
+                "a654c746.4b301",
+                "d1ea35d2.108608"
+            ]
+        ]
+    }
+]
